@@ -14,7 +14,14 @@ describe('generateLinkedList', () => {
   });
 
   // Check match by comparison with snapshot
+  exports[`should generate linked list from values 2`] = {
+    value: 2,
+    next: { value: 4, next: { value: 6, next: { value: null, next: null } } },
+  };
+
   test('should generate linked list from values 2', () => {
-    // Write your test here
+    const elementsList = [2, 4, 6];
+    const generatedList = generateLinkedList(elementsList);
+    expect(generatedList).toMatchSnapshot();
   });
 });
