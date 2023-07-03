@@ -1,4 +1,5 @@
 // Uncomment the code below and write your tests
+import path from 'path';
 import { readFileAsynchronously, doStuffByTimeout, doStuffByInterval } from '.';
 
 describe('doStuffByTimeout', () => {
@@ -59,29 +60,11 @@ describe('doStuffByInterval', () => {
 
 describe('readFileAsynchronously', () => {
   test('should call join with pathToFile', async () => {
-    const path = jest.mock('path', () => {
-      const originalModule = jest.requireActual<typeof import('path')>('path');
+    const pathJoinSpy = jest.spyOn(path, 'join');
 
-      return {
-        ...originalModule,
-        join: jest.fn(),
-      };
-    });
-
-    // jest.mock('fs', () => ({
-    //   promises: {
-    //     readFile: jest.fn().mockResolvedValue('index.ts'),
-    //   },
-    // }));
-
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    // const fs = require('fs');
-
-    // const readResult = await readFileAsynchronously('index.ts');
     await readFileAsynchronously('index.ts');
 
-    // expect(fs.promises.readFile('index.ts')).toBe('index.ts');
-    expect(path).toBeCalledWith(__dirname, 'index.ts');
+    expect(pathJoinSpy).toBeCalledWith(__dirname, 'index.ts');
   });
 
   test('should return null if file does not exist', async () => {
